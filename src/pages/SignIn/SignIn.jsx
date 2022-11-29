@@ -15,7 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import useScreenSize from "../../hooks/useScreenSize";
 import { API } from "../../constant";
-import { setToken, getToken } from "../../helpers";
+import { setToken  } from "../../helpers";
 
 const SignIn = () => {
   const { isDesktopView } = useScreenSize();
@@ -48,23 +48,23 @@ const SignIn = () => {
       } else {
         // set the token
         setToken(data.jwt);
-
         // set the user
         setUser(data.user);
 
         message.success(`Welcome back ${data.user.username}!`);
+        navigate("/", { replace: true });
+        
+         
   
       }
-      const token = getToken();
-      console.log(token);
+      
     } catch (error) {
       console.error(error);
       setError(error?.message ?? "Something went wrong!");
     } finally {
+      
       setIsLoading(false);
-      getToken();
-        navigate("/profile", { replace: true });
-        console.log('should navigate to /profile')
+      
       
     }
   };

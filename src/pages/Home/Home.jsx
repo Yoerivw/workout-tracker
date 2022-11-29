@@ -1,22 +1,52 @@
 import React,{useState, useEffect} from 'react'
 import { useAuthContext } from "../../context/AuthContext";
-import { Button, Spin, message } from 'antd';
+import { Button,Modal, message, Row, Col, Typography, Form, Input } from 'antd';
 import { API} from "../../constant";
 /* import { getToken } from '../../helpers'; */
 
 const Home = () => {
+  
     const {user } = useAuthContext();
     const [workouts, setWorkouts] = useState([]);
     const [ isLoading, setIsLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [userInput, setUserInput] = useState('');
 
-    const fetchWorkouts = async () => {
+    const showModal = () => {
+      setIsModalOpen(true);
+    };
+  
+    const handleOk = () => {
+      setWorkouts(
+        prevState => ([
+          ...prevState,
+          {
+            'name': userInput
+          }
+        ])
+      );
+      console.log(workouts);
+      setIsModalOpen(false);
+    };
+  
+    const handleCancel = () => {
+      setIsModalOpen(false);
+    };
+
+    const handleChange = (e) => {
+
+      setUserInput(e.target.value);
+    }
+  
+
+    /* const fetchWorkouts = async () => {
         setIsLoading(true);
         try{
             const response = await fetch(`${API}/workouts`)
             const data = await response.json();
             console.log(data);
             setWorkouts(data ?? []);
-            message.error("Successfully retrieved workouts!");
+            message.success("Successfully retrieved workouts!");
         } catch(error){
             console.log(error);
             message.error("Error while fetching workouts!");
@@ -32,22 +62,42 @@ const Home = () => {
 
       if (isLoading) {
         return <Spin size="large" />;
-      }
+      } */
     
   return (
-    <div>
-    {user ? <h1>Welcome back {user.username}</h1> : <h1>Please Log in or register</h1> }
-    <Button href="/workout" type="link">
-            <h3>Go to Workout</h3>
-          </Button>
-          {console.log(workouts)}
-    
-    
+    <Row>
+      <Col>
+        <Typography.Title level={2}>Personal Workout Page</Typography.Title>
+        <Button type="primary" onClick={showModal}>
+        Create Workout
+      </Button>
 
-
+      
+      <Modal title="Add Exercise Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText={'Add Exercise'}>
         
-    </div>
+                <Input placeholder="Exercise Name" onChange={handleChange}/>
+              
+        
+      </Modal>
+      <ul>
+      {workouts.map( (workout,idx) => {
+        return <li key={idx}>{workout.name}</li>
+      })}
+      </ul>
+  
+
+      </Col>
+    </Row>  
   )
 }
 
-export default Home
+
+export default Home;
+
+const workout = [{
+  'name': 'Chest'
+},
+{
+'name': 'Legs'}
+];
+

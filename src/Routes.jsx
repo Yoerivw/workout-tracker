@@ -7,17 +7,22 @@ import SignUp from "./pages/SignUp/SignUp";
 import Workout from "./pages/Workout/Workout";
 import Home from "./pages/Home/Home";
 
+
+
+
 const AppRoutes = () => {
+
+
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/workout" element={<Workout />} />
-      <Route
+      {/* <Route
         path="/profile"
         element={getToken() ? <Profile /> : <Navigate to="/signin" />}
-      />
+      /> */}
     </Routes>
   );
 };

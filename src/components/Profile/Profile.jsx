@@ -52,7 +52,7 @@ const Profile = () => {
           about: user?.about,
         }}
         onFinish={handleProfileUpdate}
-      >
+      >{console.log(user)}
         <Row gutter={[16, 16]}>
           <Col md={8} lg={8} sm={24} xs={24}>
             <Form.Item
